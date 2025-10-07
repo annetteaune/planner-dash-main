@@ -1,0 +1,61 @@
+<header class="header">
+  <h1 class="logo">
+    <a routerLink="/"
+      ><img src="logo.png" alt="Planner Dash" class="logo-img"
+    /></a>
+  </h1>
+
+  <!-- hamburger menu -->
+  <button
+    class="hamburger"
+    (click)="toggleMobileMenu()"
+    aria-label="Toggle menu"
+  >
+    <ng-icon
+      [name]="mobileMenuOpen() ? 'matCloseOutline' : 'matMenuOutline'"
+      size="32"
+    ></ng-icon>
+  </button>
+
+  <!-- desktop nav -->
+  <nav class="nav desktop-nav">
+    <ul>
+      <li>
+        <a routerLink="/"> Home </a>
+      </li>
+      <li>
+        <a routerLink="dash"> Dash </a>
+      </li>
+
+      <li>
+        <a routerLink="profile"> Profile </a>
+      </li>
+      <li>
+        @if (loggedIn()) {
+        <app-button title="Logout" (click)="logout()" />
+        }
+      </li>
+    </ul>
+  </nav>
+
+  <!-- mobile nav -->
+  <nav class="nav mobile-nav" [class.open]="mobileMenuOpen()">
+    <ul>
+      <li>
+        <a routerLink="/" (click)="closeMobileMenu()"> Home </a>
+      </li>
+      <li>
+        <a routerLink="dash" (click)="closeMobileMenu()"> Dash </a>
+      </li>
+
+      <li>
+        <a routerLink="profile" (click)="closeMobileMenu()"> Profile </a>
+      </li>
+      <li>
+        @if (loggedIn()) {
+        <app-button title="Logout" (click)="logout()" />
+        }
+      </li>
+    </ul>
+  </nav>
+</header>

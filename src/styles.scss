@@ -1,0 +1,76 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use "mixins";
+@use "colors";
+@use "@angular/material" as mat;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@100..900&display=swap");
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Inter,
+      density: 0,
+    )
+  );
+}
+
+body {
+  margin: 0;
+}
+
+:root[data-theme="dark"] body {
+  color-scheme: dark;
+}
+:root[data-theme="light"] body {
+  color-scheme: light;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  //  scrollbar
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--background-secondary);
+    border-radius: var(--border-radius-small);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--button-color-primary);
+    border-radius: var(--border-radius-small);
+
+    &:hover {
+      background: var(--button-color-hover);
+    }
+  }
+
+  // firefox
+  scrollbar-width: thin;
+  scrollbar-color: var(--button-color-primary) var(--background-secondary);
+}
+
+html {
+  font-size: calc(1rem + 0.1vw);
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Inter, "Helvetica Neue", sans-serif;
+}

@@ -1,0 +1,101 @@
+:root {
+  font-family: Inter, Helvetica, sans-serif;
+  line-height: 1.5;
+  height: 100%;
+  width: 100%;
+  background-color: var(--background-primary);
+  color: var(--font-color-primary);
+
+  /* Spacing */
+  --spacing05: 0.5rem;
+  --spacing1: 1rem;
+  --spacing1-2: 1.2rem;
+  --spacing1-4: 1.4rem;
+  --spacing2: 2rem;
+  --spacing3: 3rem;
+  --spacing4: 4rem;
+  --spacing5: 5rem;
+  --spacing6: 6rem;
+
+  /*Heights*/
+  --header-height: 5rem;
+  --footer-height: 5rem;
+
+  /* Fonts */
+  --title-font: "Outfit", sans-serif;
+  --body-font: "Inter", sans-serif;
+
+  --font-size-small: 0.8rem;
+  --font-size-medium: 1rem;
+  --font-size-large: 1.2rem;
+  --font-size-xlarge: 1.3rem;
+  --font-size-xxlarge: 1.5rem;
+  --font-size-xxxlarge: 2.5rem;
+
+  /* Font Weight */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* Border Radius */
+  --border-radius-small: 0.3rem;
+  --border-radius-medium: 0.5rem;
+  --border-radius-large: 1rem;
+}
+
+/* Dark */
+:root,
+:root[data-theme="dark"] {
+  --background-primary: #2b2b2b;
+  --background-secondary: #000000;
+
+  --modal-background: rgba(0, 0, 0, 0.5);
+
+  --header-color-primary: #2e2e2e;
+
+  --font-color-primary: #ffffff;
+  --font-color-secondary: #c4c4c4;
+  --font-color-hover: #54a4ff;
+
+  --card-color-primary: #272727;
+  --card-color-secondary: #1f1f1f;
+
+  --accent-color: #4a90e2;
+
+  --button-color-primary: #393a3f;
+  --button-color-secondary: #1c334f;
+  --button-color-hover: #34557c;
+  --button-color-accent: #396eab;
+
+  --error-color: #900000;
+  --error-font-color: #ff0000;
+  --success-color: #3dd682;
+}
+
+/* Light  */
+:root[data-theme="light"] {
+  --background-primary: #ffffff;
+  --background-secondary: #ffffff;
+
+  --modal-background: rgba(0, 0, 0, 0.3);
+
+  --header-color-primary: #f3faff;
+
+  --font-color-primary: #26262c;
+  --font-color-secondary: #424242;
+  --font-color-hover: #1565c0;
+
+  --card-color-primary: #e3f2fd;
+  --card-color-secondary: #ffffff;
+
+  --accent-color: #2196f3;
+
+  --button-color-primary: #bbdefb;
+  --button-color-secondary: #bbdefb;
+  --button-color-hover: #ffffff;
+  --button-color-accent: #2196f3;
+
+  --error-color: #ffb0b0;
+  --error-font-color: #821919;
+  --success-color: #048f61;
+}

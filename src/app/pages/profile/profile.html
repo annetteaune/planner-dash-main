@@ -1,0 +1,30 @@
+<app-page-title title="Profile" type="maintitle" />
+
+<section class="profile-container">
+  @if (loading) {
+  <p>Loading...</p>
+  } @else if (error) {
+  <p class="error">{{ error }}</p>
+  } @else if (user) {
+  <section class="profile-info">
+    <app-page-title title="Profile Information" type="subtitle" />
+    <h3><span class="label">Name:</span> {{ user.name }}</h3>
+    <h3><span class="label">Email:</span> {{ user.email }}</h3>
+  </section>
+
+  <section class="theme-section">
+    <app-page-title title="Appearance" type="subtitle" />
+    <div class="theme-toggle">
+      <mat-slide-toggle
+        [checked]="isDarkMode"
+        (change)="toggleTheme()"
+        color="primary"
+      >
+        {{ isDarkMode ? "Dark Mode" : "Light Mode" }}
+      </mat-slide-toggle>
+    </div>
+  </section>
+
+  <app-completed-todos-history></app-completed-todos-history>
+  }
+</section>

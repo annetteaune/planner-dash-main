@@ -1,0 +1,66 @@
+<app-page-title title="Register" type="maintitle" />
+<form [formGroup]="registerForm" (ngSubmit)="handleSubmit()">
+  <app-input
+    label="Name"
+    type="text"
+    id="name"
+    name="name"
+    formControlName="name"
+    autocomplete="name"
+  ></app-input>
+
+  <app-input
+    label="Email"
+    type="email"
+    id="email"
+    name="email"
+    formControlName="email"
+    autocomplete="email"
+  ></app-input>
+
+  <app-input
+    label="Password"
+    type="password"
+    id="password"
+    name="password"
+    formControlName="password"
+    autocomplete="new-password"
+  ></app-input>
+
+  <app-input
+    label="Confirm Password"
+    type="password"
+    id="confirmPassword"
+    name="confirmPassword"
+    formControlName="confirmPassword"
+    autocomplete="new-password"
+  ></app-input>
+  @if(registerForm.get('email')?.errors?.['email']) {
+  <p class="error">Please enter a valid email address</p>
+
+  } @if (passwordsDontMatch) {
+  <p class="error">Passwords do not match</p>
+  } @if (error) {
+  <p class="error">{{ error }}</p>
+  } @if (success) {
+  <p class="success">Registration successful! Redirecting...</p>
+  }
+
+  <section class="password-requirements">
+    <app-page-title title="Password Requirements" type="subtitle" />
+    <ul class="requirements-list">
+      <li [class.valid]="hasMinLength()">At least 8 characters</li>
+      <li [class.valid]="hasUpperCase()">Uppercase letter (A-Z)</li>
+      <li [class.valid]="hasLowerCase()">Lowercase letter (a-z)</li>
+      <li [class.valid]="hasNumber()">Number (0-9)</li>
+      <li [class.valid]="hasSpecialChar()">Special character (@$!%*?&)</li>
+    </ul>
+  </section>
+
+  <app-button
+    type="submit"
+    [disabled]="!registerForm.valid || loading"
+    title="Register"
+  ></app-button>
+</form>
+<p class="link">Already a member? <a href="/">Login</a></p>

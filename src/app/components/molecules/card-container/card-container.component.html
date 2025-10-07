@@ -1,0 +1,16 @@
+<div class="card-container">
+  @if (cards.length === 0) {
+  <p class="no-cards">No plans - the day is yours!</p>
+  } @else { @for (card of cards; track card.eventId || card.title) {
+  <app-card
+    [title]="card.title"
+    [content]="card.content"
+    [address]="card.address"
+    [time]="card.time"
+    [eventId]="card.eventId || ''"
+    [day]="card.day"
+    (editClick)="onEditEvent($event)"
+    (deleteClick)="onDeleteEvent($event)"
+  />
+  } }
+</div>

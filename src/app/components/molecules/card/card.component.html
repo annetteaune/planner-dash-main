@@ -1,0 +1,23 @@
+<article class="card">
+  @if (day) {
+  <div class="card-day">{{ day }}</div>
+  }
+  <div class="card-title">
+    <h3>{{ time }} - {{ title }}</h3>
+    <div class="card-title-buttons">
+      <app-button
+        ariaLabel="Edit event"
+        icon="matEditOutline"
+        (click)="onEdit()"
+      />
+      <app-button
+        ariaLabel="Delete event"
+        icon="matDeleteOutline"
+        (click)="onDelete()"
+      />
+    </div>
+  </div>
+
+  <p class="card-address">{{ address }}</p>
+  <p class="card-content">{{ content }}</p>
+</article>

@@ -1,0 +1,142 @@
+@use "mixins";
+
+.header {
+  background-color: var(--header-color-primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--header-height);
+  padding: 0 var(--spacing2);
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  top: 0;
+
+  @include mixins.laptop {
+    padding: 0 var(--spacing5);
+  }
+
+  .logo {
+    z-index: 1001;
+    a {
+      display: flex;
+      align-items: center;
+
+      .logo-img {
+        transition: opacity 0.3s ease;
+        width: var(--spacing3);
+        height: var(--spacing3);
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+
+  .hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--font-color-primary);
+    cursor: pointer;
+    padding: var(--spacing05);
+    z-index: 1001;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: var(--accent-color);
+    }
+
+    @include mixins.laptop {
+      display: none;
+    }
+  }
+
+  .desktop-nav {
+    display: none;
+
+    @include mixins.laptop {
+      display: block;
+      align-content: center;
+    }
+
+    ul {
+      display: flex;
+      list-style: none;
+      gap: var(--spacing1);
+      align-items: center;
+
+      li {
+        a {
+          text-decoration: none;
+          color: var(--font-color-primary);
+          font-weight: var(--font-weight-medium);
+          font-size: var(--font-size-large);
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: var(--font-color-hover);
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+  .mobile-nav {
+    display: block;
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    width: 250px;
+    height: calc(100vh - var(--header-height));
+    background-color: var(--header-color-primary);
+    border-left: 1px solid var(--accent-color);
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    overflow-y: auto;
+
+    &.open {
+      transform: translateX(0);
+    }
+
+    @include mixins.laptop {
+      display: none;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      list-style: none;
+      gap: 0;
+      padding: var(--spacing2) 0;
+
+      li {
+        width: 100%;
+
+        a {
+          display: block;
+          padding: var(--spacing1) var(--spacing2);
+          text-decoration: none;
+          color: var(--font-color-primary);
+          font-weight: var(--font-weight-medium);
+          font-size: var(--font-size-large);
+          transition: background-color 0.2s ease, color 0.2s ease;
+
+          &:hover {
+            background-color: var(--button-color-primary);
+            color: var(--accent-color);
+          }
+        }
+
+        app-button {
+          padding: 0 var(--spacing2);
+          width: 100%;
+        }
+      }
+    }
+  }
+}

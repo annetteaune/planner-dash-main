@@ -1,0 +1,17 @@
+.main-title {
+  font-size: var(--font-size-xxxlarge);
+  font-weight: var(--font-weight-bold);
+  color: var(--font-color-primary);
+  text-transform: uppercase;
+  font-family: var(--title-font);
+  word-break: break-word;
+}
+
+.sub-title {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-medium);
+  color: var(--font-color-secondary);
+  text-transform: uppercase;
+  font-family: var(--body-font);
+  word-break: break-word;
+}

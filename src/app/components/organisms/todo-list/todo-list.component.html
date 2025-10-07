@@ -1,0 +1,42 @@
+<section class="todo-container">
+  <div class="todo-header">
+    <app-page-title title="Todo list" type="subtitle" />
+    <app-button title="+ Add" (click)="openModal()" />
+  </div>
+  @if (loading) {
+  <ul class="todo-list">
+    @for (item of [1, 2, 3, 4, 5]; track item) {
+    <li>
+      <app-todo-item-skeleton />
+    </li>
+    }
+  </ul>
+  } @else if (error) {
+  <p class="error">{{ error }}</p>
+  } @else {
+  <ul class="todo-list">
+    @for (todo of todos; track todo.id) {
+    <li class="todo-item" [class.completed]="todo.completed">
+      <div class="todo-label">
+        <app-checkbox
+          [checked]="todo.completed"
+          (change)="toggleTodo(todo)"
+          [label]="todo.text"
+          class="todo-checkbox"
+        ></app-checkbox>
+      </div>
+    </li>
+    } @empty {
+    <p>No todos yet. Add one to get started!</p>
+    }
+  </ul>
+  }
+</section>
+
+<app-modal
+  [isOpen]="isModalOpen"
+  [title]="'Add Todo'"
+  (closeModal)="closeModal()"
+>
+  <app-add-todo (todoAdded)="onTodoAdded()"></app-add-todo>
+</app-modal>

@@ -1,0 +1,33 @@
+<section class="login">
+  <app-page-title title="Login" type="maintitle" />
+  <form>
+    <app-input
+      label="Email"
+      type="email"
+      id="email"
+      name="email"
+      [(ngModel)]="email"
+      autocomplete="email"
+    ></app-input>
+
+    <app-input
+      label="Password"
+      type="password"
+      id="password"
+      name="password"
+      [(ngModel)]="password"
+      autocomplete="current-password"
+    ></app-input>
+
+    @if (error) {
+    <p class="error">{{ error }}</p>
+    }
+
+    <app-button
+      title="{{ loading ? 'Logging in...' : 'Login' }}"
+      (click)="handleLogin()"
+      [disabled]="loading"
+    />
+  </form>
+  <p>Not a member? <a href="/register">Register</a></p>
+</section>

@@ -1,0 +1,114 @@
+@use "mixins";
+@use "colors";
+
+.completed-todos-container {
+  padding: var(--spacing1-4);
+  background: var(--card-color-primary);
+  border-radius: var(--border-radius-small);
+  margin-top: var(--spacing2);
+  width: 100%;
+
+  .history-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing1);
+    margin-bottom: var(--spacing1);
+
+    .clear-history-btn {
+      width: 100%;
+      ::ng-deep button {
+        background-color: var(--error-color);
+        color: var(--font-color-primary);
+        &:hover:not(:disabled) {
+          background-color: var(--button-color-hover);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+    }
+    @include mixins.laptop {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      .clear-history-btn {
+        width: auto;
+      }
+    }
+  }
+
+  .error {
+    color: var(--error-color);
+    padding: var(--spacing1);
+    text-align: center;
+  }
+
+  .empty-message {
+    color: var(--font-color-secondary);
+    padding: 2rem;
+    text-align: center;
+    font-style: italic;
+  }
+
+  .table-container {
+    overflow-x: auto;
+    margin-top: var(--spacing1);
+  }
+
+  .completed-todos-list {
+    width: 100%;
+    list-style: none;
+    border-radius: var(--border-radius-small);
+    overflow: hidden;
+    max-height: 30vh;
+    overflow-y: auto;
+
+    .task-text {
+      max-width: 100%;
+      word-wrap: break-word;
+
+      margin-bottom: var(--spacing05);
+      &:hover {
+        color: var(--font-color-secondary);
+      }
+    }
+  }
+}
+
+// conf modal
+.confirm-content {
+  padding: 1rem;
+
+  .warning-message {
+    font-size: 1rem;
+    color: var(--font-color-primary);
+    margin-bottom: var(--spacing2);
+  }
+
+  .success-message {
+    font-size: var(--font-size-medium);
+    color: var(--success-color);
+    text-align: center;
+    padding: var(--spacing2);
+  }
+
+  .confirm-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+
+    .danger-btn {
+      ::ng-deep button {
+        background-color: var(--error-color);
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}

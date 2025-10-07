@@ -1,0 +1,93 @@
+<form (ngSubmit)="onSubmit()">
+  <app-input
+    label="Title *"
+    type="text"
+    id="title"
+    name="title"
+    [(ngModel)]="title"
+    placeholder="Event title"
+    [disabled]="loading"
+    [required]="true"
+  ></app-input>
+
+  <app-input
+    label="Description"
+    type="textarea"
+    id="content"
+    name="content"
+    [(ngModel)]="content"
+    placeholder="Event description"
+    [disabled]="loading"
+    [rows]="3"
+  ></app-input>
+
+  <app-input
+    label="Location"
+    type="text"
+    id="address"
+    name="address"
+    [(ngModel)]="address"
+    placeholder="Event location"
+    [disabled]="loading"
+  ></app-input>
+
+  <app-checkbox
+    label="All day event"
+    id="allDay"
+    name="allDay"
+    [(ngModel)]="allDay"
+    (ngModelChange)="onAllDayChange()"
+    [disabled]="loading"
+  ></app-checkbox>
+
+  <div class="date-time-group">
+    <app-date-picker
+      class="date-field"
+      label="Date"
+      [(ngModel)]="startDateTime"
+      (ngModelChange)="onStartDateTimeChange()"
+      name="startDate"
+      [disabled]="loading"
+      [required]="true"
+    ></app-date-picker>
+    <div class="time-inputs">
+      <app-time-picker
+        class="time-field"
+        label="Start Time"
+        [(ngModel)]="startDateTime"
+        name="startTime"
+        [disabled]="loading"
+        [required]="true"
+      ></app-time-picker>
+
+      <app-time-picker
+        class="time-field"
+        label="End Time"
+        [(ngModel)]="endDateTime"
+        name="endTime"
+        [disabled]="loading || allDay"
+        [required]="!allDay"
+      ></app-time-picker>
+    </div>
+  </div>
+
+  @if (error) {
+  <p class="error">{{ error }}</p>
+  }
+
+  <app-button
+    type="submit"
+    [disabled]="
+      loading || !title.trim() || !startDateTime || (!allDay && !endDateTime)
+    "
+    [title]="
+      loading
+        ? isEditMode
+          ? 'Updating...'
+          : 'Adding...'
+        : isEditMode
+        ? 'Update Event'
+        : 'Add Event'
+    "
+  ></app-button>
+</form>

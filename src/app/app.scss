@@ -1,0 +1,24 @@
+@use "mixins";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1 0 auto;
+  width: 90%;
+  margin: var(--spacing2) auto;
+  margin-top: calc(var(--header-height) + var(--spacing2));
+  padding-bottom: var(--spacing2);
+
+  @include mixins.laptop {
+    width: 80%;
+    margin-top: calc(var(--header-height) + var(--spacing3));
+  }
+
+  @include mixins.xl {
+    width: 70%;
+  }
+}

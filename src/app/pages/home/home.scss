@@ -1,0 +1,32 @@
+@use "mixins";
+
+.home {
+  text-align: center;
+
+  p {
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-medium);
+    color: var(--font-color-secondary);
+    margin: var(--spacing2);
+  }
+
+  app-button ::ng-deep button {
+    width: 50%;
+    margin: 0 auto;
+    @include mixins.laptop {
+      width: 30%;
+    }
+  }
+
+  .title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing1);
+    margin-bottom: var(--spacing5);
+    @include mixins.laptop {
+      flex-direction: row;
+    }
+  }
+}

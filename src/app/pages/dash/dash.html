@@ -1,0 +1,92 @@
+<app-page-title [title]="currentMonth()" type="maintitle" />
+<div class="planner-container">
+  <section class="left-panel">
+    <app-page-title [title]="'Week ' + weekNumber()" type="subtitle" />
+    <app-mini-calendar (dateSelected)="onCalendarDateSelected()" />
+    <app-button
+      title="Week View"
+      (click)="onWeekView()"
+      [active]="!hasSelectedDay()"
+      class="week-view-btn"
+    />
+    <app-weather-widget />
+  </section>
+
+  <section class="middle-panel">
+    <div class="controls-container">
+      <app-button title="+ Add" (click)="openModal()" />
+      <div class="navigation-buttons">
+        <app-button
+          icon="matArrowBackIosOutline"
+          ariaLabel="Previous Week"
+          (click)="onPreviousWeek()"
+        />
+        <app-button title="Current Week" (click)="onToday()" />
+        <app-button
+          ariaLabel="Next Week"
+          icon="matArrowForwardIosOutline"
+          (click)="onNextWeek()"
+        />
+      </div>
+    </div>
+    <div class="calendar-container">
+      @if (loading) {
+      <div class="skeleton-container">
+        @for (item of [1, 2, 3]; track item) {
+        <app-card-skeleton />
+        }
+      </div>
+      } @else if (error) {
+      <p class="error">{{ error }}</p>
+      } @else {
+      <app-card-container
+        [cards]="cards"
+        (editEvent)="onEditEvent($event)"
+        (deleteEvent)="onDeleteEvent($event)"
+      />
+      }
+    </div>
+  </section>
+
+  <section class="right-panel">
+    <app-todo-list />
+  </section>
+</div>
+
+<app-modal
+  [isOpen]="isModalOpen"
+  [title]="editingEvent ? 'Edit Event' : 'Add Event'"
+  (closeModal)="closeModal()"
+>
+  <app-event-form
+    [editEvent]="editingEvent"
+    [defaultDate]="eventFormDefaultDate"
+    (eventAdded)="onEventAdded()"
+  ></app-event-form>
+</app-modal>
+
+<app-modal
+  [isOpen]="isDeleteConfirmOpen"
+  [title]="'Delete Event'"
+  (closeModal)="closeDeleteConfirm()"
+>
+  <div class="delete-confirm">
+    @if (deleteSuccess) {
+    <p class="success-message">Event deleted successfully!</p>
+    } @else {
+    <p>Are you sure you want to delete "{{ deletingEvent?.title }}"?</p>
+    <div class="delete-actions">
+      <app-button
+        title="Cancel"
+        [disabled]="isDeleting"
+        (click)="closeDeleteConfirm()"
+      ></app-button>
+      <app-button
+        [title]="isDeleting ? 'Deleting...' : 'Delete'"
+        [disabled]="isDeleting"
+        (click)="confirmDelete()"
+      ></app-button>
+    </div>
+    }
+  </div>
+</app-modal>

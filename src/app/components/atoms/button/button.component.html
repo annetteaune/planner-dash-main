@@ -1,0 +1,34 @@
+@if (icon) {
+<button
+  (click)="handleClick($event)"
+  [type]="type"
+  [disabled]="disabled"
+  [class.active]="active"
+  [attr.aria-label]="ariaLabel || title || 'Button'"
+  class="icon-btn"
+>
+  <ng-icon [name]="icon" class="icon" />
+</button>
+} @else if (dateBtn) {
+<button
+  (click)="handleClick($event)"
+  [type]="type"
+  [disabled]="disabled"
+  [class.active]="active"
+  [attr.aria-label]="ariaLabel || title || 'Button'"
+  class="date-btn"
+>
+  {{ title }}
+</button>
+} @else {
+<!-- regular button -->
+<button
+  (click)="handleClick($event)"
+  [type]="type"
+  [disabled]="disabled"
+  [class.active]="active"
+  class="reg-btn"
+>
+  {{ title }}
+</button>
+}

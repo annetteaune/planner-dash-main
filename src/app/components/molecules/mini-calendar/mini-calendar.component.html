@@ -1,0 +1,40 @@
+<div class="mini-calendar">
+  <div class="month-header">
+    <app-button
+      ariaLabel="Previous Month"
+      icon="matArrowBackIosOutline"
+      (click)="onPreviousMonth()"
+    ></app-button>
+    {{ currentMonth() }}
+    <app-button
+      ariaLabel="Next Month"
+      icon="matArrowForwardIosOutline"
+      (click)="onNextMonth()"
+    ></app-button>
+  </div>
+  <div class="calendar-header">
+    @for (dayHeader of weekDayHeaders; track dayHeader) {
+    <div class="day-header">{{ dayHeader }}</div>
+    }
+  </div>
+
+  <div class="calendar-grid">
+    @for (week of weeks; track week[0].date; let weekIdx = $index) { @for (day
+    of week; track day.date; let dayIdx = $index) { @let dayIndex = weekIdx * 7
+    + dayIdx;
+    <button
+      class="calendar-day"
+      [class.other-month]="!day.isCurrentMonth"
+      [class.today]="day.isToday"
+      [class.selected]="day.isSelected"
+      [class.in-week]="isWeekViewMode && day.isInCurrentWeek"
+      [tabIndex]="getTabIndex(dayIndex)"
+      (click)="onDateClick(day)"
+      (keydown)="onKeyDown($event, day)"
+      [attr.aria-label]="day.date.toLocaleDateString()"
+    >
+      {{ day.dayNumber }}
+    </button>
+    } }
+  </div>
+</div>

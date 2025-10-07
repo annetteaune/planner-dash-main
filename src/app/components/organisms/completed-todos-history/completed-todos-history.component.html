@@ -1,0 +1,65 @@
+<section class="completed-todos-container">
+  <div class="history-header">
+    <app-page-title title="Completed Todos History" type="subtitle" />
+    @if (completedTodos.length > 0 && !loading) {
+    <app-button
+      title="Clear History"
+      (click)="openConfirmModal()"
+      class="clear-history-btn"
+    />
+    }
+  </div>
+
+  @if (loading) {
+  <ul class="completed-todos-list">
+    @for (item of [1, 2, 3]; track item) {
+    <li>
+      <app-todo-item-skeleton />
+    </li>
+    }
+  </ul>
+  } @else if (error) {
+  <p class="error">{{ error }}</p>
+  } @else if (completedTodos.length === 0) {
+  <p class="empty-message">No completed todos yet</p>
+  } @else {
+  <div class="list-container">
+    <ul class="completed-todos-list">
+      @for (todo of completedTodos; track todo.id) {
+      <li class="task-text">✓ {{ todo.text }}</li>
+
+      }
+    </ul>
+  </div>
+  }
+</section>
+
+<app-modal
+  [isOpen]="isConfirmModalOpen"
+  [title]="'Clear History'"
+  (closeModal)="closeConfirmModal()"
+>
+  <div class="confirm-content">
+    @if (deleteSuccess) {
+    <p class="success-message">History cleared successfully!</p>
+    } @else {
+    <p class="warning-message">
+      Are you sure you want to delete all completed todos? This action cannot be
+      undone.
+    </p>
+    <div class="confirm-actions">
+      <app-button
+        title="Cancel"
+        (click)="closeConfirmModal()"
+        [disabled]="isDeleting"
+      />
+      <app-button
+        [title]="isDeleting ? 'Deleting...' : 'Yes, Clear History'"
+        (click)="confirmClearHistory()"
+        [disabled]="isDeleting"
+        class="danger-btn"
+      />
+    </div>
+    }
+  </div>
+</app-modal>

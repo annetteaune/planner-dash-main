@@ -1,0 +1,13 @@
+<mat-form-field>
+  <mat-label>{{ label }}</mat-label>
+  <input
+    matInput
+    [matDatepicker]="picker"
+    [(ngModel)]="value"
+    (dateChange)="onDateChange($event)"
+    [disabled]="disabled"
+    [required]="required"
+  />
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>

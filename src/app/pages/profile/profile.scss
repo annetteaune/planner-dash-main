@@ -1,0 +1,75 @@
+@use "mixins";
+@use "colors";
+
+app-page-title ::ng-deep h2 {
+  text-align: center;
+}
+.profile-container {
+  max-width: 90%;
+  margin: 0 auto;
+  padding: var(--spacing2);
+
+  p {
+    padding: var(--spacing1);
+    text-align: center;
+  }
+
+  .error {
+    color: var(--error-color);
+    background: var(-card-color-primary);
+    border-radius: var(--border-radius-small);
+  }
+
+  .profile-info {
+    background: var(--card-color-primary);
+    padding: var(--spacing2);
+    border-radius: var(--border-radius-small);
+    margin-bottom: var(--spacing2);
+    app-page-title ::ng-deep h3 {
+      margin-bottom: var(--spacing1);
+    }
+    h3 {
+      font-size: var(--font-size-medium);
+      font-weight: var(--font-weight-regular);
+      margin-bottom: var(--spacing05);
+      color: var(--font-color-secondary);
+      word-break: break-word;
+
+      .label {
+        font-weight: var(--font-weight-bold);
+        color: var(--font-color-primary);
+      }
+    }
+  }
+
+  .theme-section {
+    background: var(--card-color-primary);
+    padding: var(--spacing2);
+    border-radius: var(--border-radius-small);
+    margin-bottom: var(--spacing2);
+    app-page-title ::ng-deep h3 {
+      margin-bottom: var(--spacing1);
+    }
+  }
+
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing1) 0;
+    gap: 1rem;
+
+    mat-slide-toggle {
+      ::ng-deep .mdc-label {
+        margin-left: var(--spacing1);
+        color: var(--font-color-primary);
+        font-size: var(--font-size-medium);
+        font-weight: var(--font-weight-regular);
+      }
+    }
+  }
+}
+@include mixins.laptop {
+  .profile-container {
+    max-width: 60%;
+  }
+}

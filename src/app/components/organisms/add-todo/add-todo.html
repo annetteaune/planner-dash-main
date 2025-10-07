@@ -1,0 +1,21 @@
+<form (ngSubmit)="onSubmit()">
+  <app-input
+    label="Todo"
+    type="text"
+    id="todoText"
+    name="todoText"
+    [(ngModel)]="todoText"
+    placeholder="Enter your todo"
+    [disabled]="loading"
+  ></app-input>
+
+  @if (error) {
+  <p class="error">{{ error }}</p>
+  }
+
+  <app-button
+    type="submit"
+    [disabled]="loading || !todoText.trim()"
+    [title]="loading ? 'Adding...' : 'Add Todo'"
+  ></app-button>
+</form>

@@ -1,0 +1,38 @@
+@if (type === 'textarea') {
+<mat-form-field appearance="outline" class="full-width">
+  @if (label) {
+  <mat-label>{{ label }}</mat-label>
+  }
+  <textarea
+    matInput
+    [value]="value"
+    (input)="onInputChange($any($event.target).value)"
+    (blur)="onBlur()"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [required]="required"
+    [rows]="rows"
+    [id]="id"
+    [name]="name"
+  ></textarea>
+</mat-form-field>
+} @else {
+<mat-form-field appearance="outline" class="full-width">
+  @if (label) {
+  <mat-label>{{ label }}</mat-label>
+  }
+  <input
+    matInput
+    [type]="type"
+    [value]="value"
+    (input)="onInputChange($any($event.target).value)"
+    (blur)="onBlur()"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [required]="required"
+    [autocomplete]="autocomplete"
+    [id]="id"
+    [name]="name"
+  />
+</mat-form-field>
+}

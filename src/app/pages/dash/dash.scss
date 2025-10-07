@@ -1,0 +1,174 @@
+@use "mixins";
+
+.planner-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--spacing1);
+  height: auto;
+  min-height: 60vh;
+
+  @include mixins.laptop {
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto;
+    height: auto;
+    max-height: none;
+    min-height: 0;
+  }
+  @include mixins.desktop {
+    grid-template-columns: 1fr 3fr 1fr;
+    gap: var(--spacing2);
+  }
+
+  .left-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing1);
+    align-items: flex-start;
+    overflow: hidden;
+
+    @include mixins.laptop {
+      flex-direction: column;
+      max-height: fit-content;
+    }
+
+    app-mini-calendar {
+      display: block;
+      width: 100%;
+      margin-bottom: var(--spacing05);
+      flex-shrink: 0;
+      margin: 0 auto;
+
+      @include mixins.tablet {
+        width: 50%;
+      }
+      @include mixins.laptop {
+        width: 100%;
+      }
+      ::ng-deep button {
+        font-size: var(--font-size-large);
+
+        @include mixins.laptop {
+          font-size: var(--font-size-small);
+        }
+      }
+    }
+
+    .week-view-btn {
+      width: 100%;
+      margin-bottom: var(--spacing05);
+      &:hover ::ng-deep button {
+        background-color: var(--button-color-hover);
+      }
+    }
+
+    app-weather-widget {
+      width: 100%;
+    }
+  }
+
+  .middle-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing1);
+    align-items: center;
+    width: 100%;
+    min-height: 50vh;
+    overflow: hidden;
+    background-color: var(--card-color-secondary);
+    border-radius: var(--border-radius-small);
+
+    @include mixins.laptop {
+      contain: size; // prevent the container from affecting the grid row height
+      min-height: 0;
+      height: auto;
+      background-color: transparent;
+    }
+
+    .controls-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      flex-wrap: wrap;
+      gap: var(--spacing1);
+
+      > app-button:first-child ::ng-deep button {
+        background-color: var(--button-color-accent);
+
+        &:hover {
+          background-color: var(--button-color-hover);
+        }
+      }
+
+      .navigation-buttons {
+        display: flex;
+        gap: var(--spacing1);
+        align-items: center;
+
+        ::ng-deep button {
+          padding: var(--spacing1);
+        }
+      }
+    }
+
+    .calendar-container {
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      .skeleton-container {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing1);
+      }
+    }
+  }
+
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing1);
+    width: 100%;
+    overflow: hidden;
+
+    @include mixins.laptop {
+      contain: size;
+      min-height: 0;
+      height: auto;
+    }
+
+    app-todo-list {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+  }
+}
+
+.delete-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing2);
+
+  p {
+    margin: 0;
+    font-size: var(--font-size-medium);
+  }
+
+  .success-message {
+    color: var(--success-color);
+    font-weight: var(--font-weight-medium);
+    text-align: center;
+    padding: var(--spacing2) 0;
+  }
+
+  .delete-actions {
+    display: flex;
+    gap: var(--spacing1);
+    justify-content: flex-end;
+  }
+}

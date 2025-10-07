@@ -1,0 +1,17 @@
+.todo-item-skeleton {
+  background-color: var(--card-color-primary);
+  border-radius: var(--border-radius-small);
+  padding: var(--spacing05);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing05);
+
+  .skeleton-checkbox {
+    flex-shrink: 0;
+  }
+
+  .skeleton-text {
+    flex: 1;
+    min-width: 0;
+  }
+}

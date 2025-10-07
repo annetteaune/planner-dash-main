@@ -1,0 +1,17 @@
+@if (authService.isLoggedIn()) {
+<section class="home">
+  <div class="title-container">
+    <img src="logo.png" alt="Planner Dash" class="logo-img" />
+    <app-page-title title="Planner Dash" type="maintitle" />
+  </div>
+  <app-page-title
+    title="Welcome, {{ authService.currentUser()?.name }}!"
+    type="subtitle"
+  />
+  <p>Get organized!</p>
+  <app-button title="Start Planning" (click)="navigateToDash()" type="button" />
+</section>
+
+} @else {
+<app-login-form />
+}

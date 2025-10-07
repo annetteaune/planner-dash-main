@@ -1,0 +1,17 @@
+<mat-form-field>
+  <mat-label>{{ label }}</mat-label>
+  <input
+    matInput
+    [matTimepicker]="timePicker"
+    [(ngModel)]="value"
+    (ngModelChange)="onValueChange()"
+    [ngModelOptions]="{ updateOn: 'blur' }"
+    [disabled]="disabled"
+    [required]="required"
+  />
+  <mat-timepicker-toggle
+    matIconSuffix
+    [for]="timePicker"
+  ></mat-timepicker-toggle>
+  <mat-timepicker #timePicker></mat-timepicker>
+</mat-form-field>

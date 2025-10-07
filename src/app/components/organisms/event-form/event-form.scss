@@ -1,0 +1,52 @@
+@use "mixins";
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .date-time-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 100%;
+
+    .date-field {
+      flex: 1;
+      min-width: 0;
+      height: -webkit-fill-available;
+    }
+
+    > label {
+      font-weight: 500;
+    }
+
+    .time-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing05);
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+
+      @include mixins.laptop {
+        flex-direction: row;
+      }
+
+      .time-field {
+        min-width: 100%;
+        max-width: 100%;
+
+        @include mixins.laptop {
+          min-width: 30%;
+          max-width: 50%;
+        }
+      }
+    }
+  }
+
+  .error {
+    color: red;
+    margin: 0;
+  }
+}

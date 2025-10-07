@@ -1,0 +1,22 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing1);
+  label {
+    font-weight: var(--font-weight-medium);
+  }
+  input {
+    padding: var(--spacing1);
+    border: 1px solid var(--font-color-secondary);
+    border-radius: var(--border-radius-small);
+  }
+  button {
+    padding: var(--spacing1);
+    cursor: pointer;
+  }
+  .error {
+    color: var(--error-font-color);
+    padding-bottom: var(--spacing1);
+    margin: 0;
+  }
+}
