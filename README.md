@@ -8,7 +8,8 @@
 
 ### Func/Sec
 
-- ZOD!!!
+✓ ZOD!!!
+
 - set up proper data fatching, swr? look up angular ones
 - http only, secure cookies for jwt instead of local storage
 - extend jwt to todos
@@ -17,8 +18,8 @@
 
 ## Expansion ideas:
 
+✓ fetch weather data from yr
+
 - contact info table, names, phone numbers, emails, birthdays (birthdays to sync with events)
 - fetch events from google/outlook calendar?
-- fetch weather data from yr
-  - figure out how to handle the location problem. map selector? search bar?
 - designated shopping list

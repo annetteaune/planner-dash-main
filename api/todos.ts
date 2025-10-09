@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sql } from './_db';
 import { requireAuthUserId } from './jwt';
+import { CreateTodoSchema, UpdateTodoSchema } from './schemas';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Set CORS headers
@@ -29,11 +30,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method === 'POST') {
       const authedUserId = requireAuthUserId(req);
       if (!authedUserId) return res.status(401).json({ error: 'Unauthorized' });
-      const { text, due_at, priority } = req.body || {};
-      if (!text) {
-        return res.status(400).json({ error: 'text is required' });
+
+      // Validate request body with Zod
+      const requestData = { ...req.body, user_id: authedUserId };
+      const validationResult = CreateTodoSchema.safeParse(requestData);
+      if (!validationResult.success) {
+        const errors = validationResult.error.errors.map((err) => {
+          const path = err.path.length > 0 ? `${err.path.join('.')}: ` : '';
+          return `${path}${err.message}`;
+        });
+        return res.status(400).json({
+          error: 'Validation failed',
+          details: errors,
+        });
       }
-      const prio = typeof priority === 'number' ? priority : 0;
+
+      const { text, due_at, priority } = validationResult.data;
+      const prio = priority ?? 0;
       const rows = await sql`
         insert into todos (user_id, text, due_at, priority)
         values (${authedUserId}, ${text}, ${due_at ?? null}, ${prio})
@@ -42,10 +55,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (req.method === 'PATCH') {
-      const { id, completed, text, due_at, priority } = req.body || {};
-      if (!id) {
-        return res.status(400).json({ error: 'id is required' });
+      // Validate request body with Zod
+      const validationResult = UpdateTodoSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        const errors = validationResult.error.errors.map((err) => {
+          const path = err.path.length > 0 ? `${err.path.join('.')}: ` : '';
+          return `${path}${err.message}`;
+        });
+        return res.status(400).json({
+          error: 'Validation failed',
+          details: errors,
+        });
       }
+
+      const { id, completed, text, due_at, priority } = validationResult.data;
 
       // For a simpler approach, just update completed status for now
       // Can be expanded later for other fields

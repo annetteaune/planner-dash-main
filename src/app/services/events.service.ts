@@ -1,6 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { Event } from '../models/event.model';
 import { AuthService } from './auth.service';
+import { ValidationService } from './validation.service';
+import { EventSchema, CreateEventSchema, UpdateEventSchema } from '../schemas';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +10,7 @@ import { AuthService } from './auth.service';
 export class EventsService {
   private apiUrl = '/api/events';
   private auth = inject(AuthService);
+  private validationService = new ValidationService();
 
   async getEventsByUserId(userId: string): Promise<Event[]> {
     const response = await fetch(`${this.apiUrl}?user_id=${userId}`, {
@@ -20,7 +23,11 @@ export class EventsService {
       throw new Error(`Failed to fetch events: ${response.statusText}`);
     }
 
-    return response.json();
+    const data = await response.json();
+    // Validate API response
+    return data.map((event: unknown) =>
+      this.validationService.parseApiResponse(EventSchema, event)
+    );
   }
 
   async getEventsByUserIdAndDateRange(
@@ -44,7 +51,11 @@ export class EventsService {
       throw new Error(`Failed to fetch events: ${response.statusText}`);
     }
 
-    return response.json();
+    const data = await response.json();
+    // Validate API response
+    return data.map((event: unknown) =>
+      this.validationService.parseApiResponse(EventSchema, event)
+    );
   }
 
   filterEventsByDate(events: Event[], targetDate: Date): Event[] {
@@ -74,7 +85,9 @@ export class EventsService {
       throw new Error(`Failed to fetch event: ${response.statusText}`);
     }
 
-    return response.json();
+    const data = await response.json();
+    // Validate API response
+    return this.validationService.parseApiResponse(EventSchema, data);
   }
 
   async createEvent(
@@ -86,13 +99,10 @@ export class EventsService {
     endAt: string,
     allDay: boolean = false
   ): Promise<Event> {
-    const response = await fetch(this.apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...this.auth.getAuthHeaders(),
-      },
-      body: JSON.stringify({
+    // Validate input data
+    const validationResult = this.validationService.validateFormData(
+      CreateEventSchema,
+      {
         user_id: userId,
         title,
         content,
@@ -100,7 +110,20 @@ export class EventsService {
         start_at: startAt,
         end_at: endAt,
         all_day: allDay,
-      }),
+      }
+    );
+
+    if (!validationResult.success) {
+      throw new Error(validationResult.errors?.join(', ') || 'Invalid input');
+    }
+
+    const response = await fetch(this.apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.auth.getAuthHeaders(),
+      },
+      body: JSON.stringify(validationResult.data),
     });
 
     if (!response.ok) {
@@ -108,7 +131,9 @@ export class EventsService {
       throw new Error(error.error || 'Failed to create event');
     }
 
-    return response.json();
+    const data = await response.json();
+    // Validate API response
+    return this.validationService.parseApiResponse(EventSchema, data);
   }
 
   async updateEvent(
@@ -120,13 +145,10 @@ export class EventsService {
     endAt: string,
     allDay: boolean
   ): Promise<Event> {
-    const response = await fetch(this.apiUrl, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        ...this.auth.getAuthHeaders(),
-      },
-      body: JSON.stringify({
+    // Validate input data
+    const validationResult = this.validationService.validateFormData(
+      UpdateEventSchema,
+      {
         id: eventId,
         title,
         content,
@@ -134,7 +156,20 @@ export class EventsService {
         start_at: startAt,
         end_at: endAt,
         all_day: allDay,
-      }),
+      }
+    );
+
+    if (!validationResult.success) {
+      throw new Error(validationResult.errors?.join(', ') || 'Invalid input');
+    }
+
+    const response = await fetch(this.apiUrl, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.auth.getAuthHeaders(),
+      },
+      body: JSON.stringify(validationResult.data),
     });
 
     if (!response.ok) {
@@ -142,7 +177,9 @@ export class EventsService {
       throw new Error(error.error || 'Failed to update event');
     }
 
-    return response.json();
+    const data = await response.json();
+    // Validate API response
+    return this.validationService.parseApiResponse(EventSchema, data);
   }
 
   async deleteEvent(eventId: string): Promise<void> {

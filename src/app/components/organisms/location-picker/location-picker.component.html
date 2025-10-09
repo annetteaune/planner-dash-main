@@ -1,0 +1,55 @@
+<div class="location-picker">
+  <app-input
+    [(ngModel)]="query"
+    placeholder="Search for a location..."
+    label="Location"
+    name="location-query"
+    id="location-query"
+  ></app-input>
+
+  <div class="mt-2">
+    <app-button
+      title="Search"
+      (click)="onSearch()"
+      [disabled]="isLoading"
+    ></app-button>
+  </div>
+
+  @if (isLoading) {
+  <div class="loading-container">
+    @for (item of [1,2,3]; track $index) {
+    <app-todo-item-skeleton></app-todo-item-skeleton>
+    }
+  </div>
+  } @else if (results.length > 0) {
+  <div class="results-container">
+    @for (loc of results; track loc.displayName) {
+    <div class="location-option">
+      <app-checkbox
+        [label]="loc.displayName"
+        [checked]="false"
+        (change)="selectLocation(loc)"
+        [id]="'location-' + $index"
+      ></app-checkbox>
+    </div>
+    }
+  </div>
+  } @else if (showMinLengthMessage) {
+  <div class="message-container">
+    <p class="validation-message">
+      Please enter at least 2 characters to search for a location.
+    </p>
+  </div>
+  } @else if (showNoResultsMessage) {
+  <div class="message-container">
+    <p class="validation-message">
+      No locations found for "{{ query }}". Please try a different search term.
+    </p>
+  </div>
+  } @if (selectedLocation) {
+  <p class="selected-location">
+    Location successfully selected:
+    <strong>{{ selectedLocation.displayName }}</strong>
+  </p>
+  }
+</div>

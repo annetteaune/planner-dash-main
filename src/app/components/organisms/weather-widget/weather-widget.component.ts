@@ -1,30 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { WeatherService } from '../../../services/weather.service';
+import { WeatherWidgetSkeletonComponent } from './weather-widget-skeleton/weather-widget-skeleton.component';
 import {
-  WeatherService,
-  WeatherIconInfo,
-} from '../../../services/weather.service';
-import { DatePipe, DecimalPipe } from '@angular/common';
+  LocationStateService,
+  LocationData,
+} from '../../../services/location-state.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-weather-widget',
-  standalone: true,
   templateUrl: './weather-widget.component.html',
   styleUrl: './weather-widget.component.scss',
-  imports: [DatePipe, DecimalPipe],
+  standalone: true,
+  imports: [WeatherWidgetSkeletonComponent],
 })
-export class WeatherWidgetComponent implements OnInit {
-  weatherData: any = null;
-  loading = true;
-  currentWeatherIcon: WeatherIconInfo | null = null;
+export class WeatherWidgetComponent implements OnInit, OnDestroy {
+  temperature?: number;
+  symbol?: string;
+  locationName = 'Getting location...';
+  private locationSubscription?: Subscription;
 
-  constructor(private weatherService: WeatherService) {}
+  constructor(
+    private weatherService: WeatherService,
+    private locationStateService: LocationStateService
+  ) {}
 
-  async ngOnInit() {
-    this.weatherData = await this.weatherService.getWeather(59.5535, 11.3258);
-    this.currentWeatherIcon = this.weatherService.getWeatherIcon(
-      this.weatherData.current.weather_code,
-      this.weatherData.current.is_day
-    );
-    this.loading = false;
+  ngOnInit() {
+    // Subscribe to location changes
+    this.locationSubscription = this.locationStateService
+      .getCurrentLocationData()
+      .subscribe((locationData: LocationData | null) => {
+        if (locationData) {
+          this.locationName = locationData.shortName;
+          this.getWeather(locationData.lat, locationData.lon);
+        }
+      });
+
+    // Also subscribe to location name changes for display
+    this.locationStateService
+      .getCurrentLocation()
+      .subscribe((locationName: string) => {
+        this.locationName = locationName;
+      });
+  }
+
+  getWeather(lat: number, lon: number) {
+    this.weatherService.getWeather(lat, lon).subscribe((data) => {
+      this.temperature = data.temperature;
+      this.symbol = data.symbol;
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.locationSubscription) {
+      this.locationSubscription.unsubscribe();
+    }
   }
 }

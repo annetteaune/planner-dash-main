@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sql } from './_db';
 import { requireAuthUserId } from './jwt';
+import { CreateEventSchema, UpdateEventSchema } from './schemas';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Set CORS headers
@@ -96,12 +97,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method === 'POST') {
       const authedUserId = requireAuthUserId(req);
       if (!authedUserId) return res.status(401).json({ error: 'Unauthorized' });
-      const { user_id, title, content, address, start_at, end_at, all_day } =
-        req.body || {};
 
-      if (!title) {
-        return res.status(400).json({ error: 'title is required' });
+      // Validate request body with Zod
+      const requestData = { ...req.body, user_id: authedUserId };
+      const validationResult = CreateEventSchema.safeParse(requestData);
+      if (!validationResult.success) {
+        const errors = validationResult.error.errors.map((err) => {
+          const path = err.path.length > 0 ? `${err.path.join('.')}: ` : '';
+          return `${path}${err.message}`;
+        });
+        return res.status(400).json({
+          error: 'Validation failed',
+          details: errors,
+        });
       }
+
+      const { title, content, address, start_at, end_at, all_day } =
+        validationResult.data;
 
       const rows = await sql`
         insert into events (user_id, title, content, address, start_at, end_at, all_day)
@@ -116,25 +128,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method === 'PUT') {
       const authedUserId = requireAuthUserId(req);
       if (!authedUserId) return res.status(401).json({ error: 'Unauthorized' });
+
+      // Validate request body with Zod
+      const validationResult = UpdateEventSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        const errors = validationResult.error.errors.map((err) => {
+          const path = err.path.length > 0 ? `${err.path.join('.')}: ` : '';
+          return `${path}${err.message}`;
+        });
+        return res.status(400).json({
+          error: 'Validation failed',
+          details: errors,
+        });
+      }
+
       const { id, title, content, address, start_at, end_at, all_day } =
-        req.body || {};
-
-      if (!id) {
-        return res.status(400).json({ error: 'id is required' });
-      }
-
-      if (
-        title === undefined &&
-        content === undefined &&
-        address === undefined &&
-        start_at === undefined &&
-        end_at === undefined &&
-        all_day === undefined
-      ) {
-        return res
-          .status(400)
-          .json({ error: 'At least one field to update is required' });
-      }
+        validationResult.data;
 
       // Ensure the event belongs to the user
       const ownerRows = await sql`

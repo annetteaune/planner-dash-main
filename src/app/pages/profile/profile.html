@@ -6,13 +6,13 @@
   } @else if (error) {
   <p class="error">{{ error }}</p>
   } @else if (user) {
-  <section class="profile-info">
+  <section class="profile-info section">
     <app-page-title title="Profile Information" type="subtitle" />
     <h3><span class="label">Name:</span> {{ user.name }}</h3>
     <h3><span class="label">Email:</span> {{ user.email }}</h3>
   </section>
 
-  <section class="theme-section">
+  <section class="theme-section section">
     <app-page-title title="Appearance" type="subtitle" />
     <div class="theme-toggle">
       <mat-slide-toggle
@@ -22,6 +22,23 @@
       >
         {{ isDarkMode ? "Dark Mode" : "Light Mode" }}
       </mat-slide-toggle>
+    </div>
+  </section>
+
+  <section class="weather-section section">
+    <app-page-title title="Weather Location" type="subtitle" />
+    <p>
+      Current location: <strong>{{ preferredLocationName }}</strong>
+    </p>
+
+    <div class="location-controls">
+      <app-location-picker></app-location-picker>
+
+      <app-button
+        title="Use Current Geolocation"
+        (click)="revertToLiveLocation()"
+        [disabled]="isReverting"
+      ></app-button>
     </div>
   </section>
 

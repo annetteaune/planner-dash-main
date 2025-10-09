@@ -4,6 +4,13 @@
 app-page-title ::ng-deep h2 {
   text-align: center;
 }
+
+.section {
+  background: var(--card-color-primary);
+  padding: var(--spacing2);
+  border-radius: var(--border-radius-small);
+  margin-bottom: var(--spacing2);
+}
 .profile-container {
   max-width: 90%;
   margin: 0 auto;
@@ -21,10 +28,6 @@ app-page-title ::ng-deep h2 {
   }
 
   .profile-info {
-    background: var(--card-color-primary);
-    padding: var(--spacing2);
-    border-radius: var(--border-radius-small);
-    margin-bottom: var(--spacing2);
     app-page-title ::ng-deep h3 {
       margin-bottom: var(--spacing1);
     }
@@ -43,12 +46,16 @@ app-page-title ::ng-deep h2 {
   }
 
   .theme-section {
-    background: var(--card-color-primary);
-    padding: var(--spacing2);
-    border-radius: var(--border-radius-small);
-    margin-bottom: var(--spacing2);
     app-page-title ::ng-deep h3 {
       margin-bottom: var(--spacing1);
+    }
+  }
+
+  .weather-section {
+    .location-controls {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing1);
     }
   }
 

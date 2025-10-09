@@ -19,11 +19,12 @@
   .weather-info {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    padding: 0 var(--spacing1-4);
+    justify-content: center;
+    gap: var(--spacing1);
+
     .weather-icon {
-      width: var(--spacing3);
-      height: var(--spacing3);
+      width: var(--spacing5);
+      height: var(--spacing5);
       object-fit: contain;
       @include mixins.laptop {
         width: var(--spacing4);
@@ -36,7 +37,12 @@
     }
 
     p {
-      font-size: var(--font-size-xxlarge);
+      font-size: var(--font-size-xxxlarge);
+      font-weight: var(--font-weight-bold);
+
+      @include mixins.laptop {
+        font-size: var(--font-size-large);
+      }
 
       @include mixins.xl {
         font-size: var(--font-size-xxxlarge);

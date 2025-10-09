@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sql } from './_db';
 import { signToken } from './jwt';
 import bcrypt from 'bcrypt';
+import { LoginSchema } from './schemas';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Set CORS headers
@@ -16,13 +17,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     if (req.method === 'POST') {
-      const { email, password } = req.body || {};
-
-      if (!email || !password) {
-        return res
-          .status(400)
-          .json({ error: 'Email and password are required' });
+      // Validate request body with Zod
+      const validationResult = LoginSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        const errors = validationResult.error.errors.map((err) => {
+          const path = err.path.length > 0 ? `${err.path.join('.')}: ` : '';
+          return `${path}${err.message}`;
+        });
+        return res.status(400).json({
+          error: 'Validation failed',
+          details: errors,
+        });
       }
+
+      const { email, password } = validationResult.data;
 
       // Get user with password hash
       const rows = await sql`

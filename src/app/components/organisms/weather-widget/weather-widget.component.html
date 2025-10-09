@@ -1,18 +1,16 @@
-@if (loading) {
-<div>Loading weather...</div>
-} @if (!loading && weatherData && currentWeatherIcon) {
+@if (temperature === undefined) {
+<app-weather-widget-skeleton></app-weather-widget-skeleton>
+} @if (temperature !== undefined) {
 <div class="weather-app">
-  <h3>{{ weatherData.current.time | date : "MMMM d" }}, Mysen</h3>
+  <h3>{{ locationName }}</h3>
 
   <div class="weather-info">
     <img
-      [src]="currentWeatherIcon.icon"
-      [alt]="currentWeatherIcon.description"
+      [src]="'/assets/weather-icons/' + symbol + '.svg'"
+      [alt]="symbol"
       class="weather-icon"
     />
-    <p>
-      <b>{{ weatherData.current.temperature_2m | number : "1.0-0" }} °C</b>
-    </p>
+    <p>{{ temperature }} °C</p>
   </div>
 </div>
 }
